@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>file upload</title>
+    <script src="jquery-1.11.3.min.js"></script>
+    <script src="jquery.form.js"></script>
+    <style>
+        *{
+            box-sizing:border-box;
+            font-size: 14px;
+        }
+        .input-group{
+            display: table;
+            border-collapse:separate;
+        }
+        .input-text{
+            display: table-cell;
+            height:34px;
+            padding:6px 12px;
+            line-height:1.42857143;
+            color:#555;
+            background-color: #fff;
+            border:1px solid #ccc;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        }
+        .input-text:focus{
+            outline: 0;
+            border-color:#66afe9;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+        }
+        .input-btn{
+            display: table-cell;
+            padding:6px 12px;
+            line-height:1;
+            font-weight: 400;
+            color:#555;
+            background-color: #eee;
+            border:1px solid #ccc;
+            border-left:0;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        .input-btn label{
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-group">
+        <input type="text" class="input-text">
+        <span class="input-btn"><label for="file-upload">上传文件</label></span>
+    </div>
+    <form enctype="multipart/form-data" id="file-upload-form">
+        <input type="file" id="file-upload" name="filelala" onchange="handleFiles(this.files)" style="position:absolute;clip:rect(0,0,0,0);">
+        <br>
+        <input type="submit">
+    </form>
+    <script>
+        function handleFiles(files){
+            $('.input-text').val(files[0].name);
+        }
+        var options = {
+            target: '#output',
+            beforeSubmit: showRequest,
+            success:showResponse,
+            clearForm: true
+        };
+        $('#file-upload-form').submit(function(){
+           $(this).ajaxSubmit(options);
+           return false;
+        });
+        function showRequest(formData,jqForm,options){
+            var queryString = $.param(formData);
+            alert('queryString' + queryString);
+            return true;
+        }
+        function showResponse(responseText,statusText,xhr,$form){
+            alert(responseText);
+        }
+    </script>
+</body>
+</html>
